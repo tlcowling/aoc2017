@@ -1,55 +1,12 @@
 package main
 
 import (
-	"strings"
-	"strconv"
 	"log"
+	"strconv"
+	"strings"
 )
 
-type Spreadsheet struct {
-	lines []SpreadsheetLine
-}
-
-type SpreadsheetLine []int
-
-func (s Spreadsheet)checksum() int {
-	sum := 0
-	for _, line:= range s.lines {
-		min, max := MinMax(line)
-		sum += max - min
-	}
-	return sum
-}
-
-func NewSpreadsheet(input string) Spreadsheet {
-	lines := strings.Split(input, "\n")
-
-	sLines := []SpreadsheetLine{}
-
-	for _, line := range lines {
-		line = strings.TrimSpace(line)
-		elements := strings.Split(line, "\t")
-		iElements := []int{}
-		for _, element:=range elements {
-			if element == "" {
-				continue
-			}
-			i, err := strconv.Atoi(element)
-			if err != nil {
-				log.Fatalln(err)
-			}
-			iElements = append(iElements, i)
-		}
-		sLines = append(sLines, iElements)
-	}
-
-	return Spreadsheet{
-		lines:sLines,
-	}
-}
-
-func two() int{
-	input := `
+const input = `
 		1136	1129	184	452	788	1215	355	1109	224	1358	1278	176	1302	186	128	1148
 		242	53	252	62	40	55	265	283	38	157	259	226	322	48	324	299
 		2330	448	268	2703	1695	2010	3930	3923	179	3607	217	3632	1252	231	286	3689
@@ -68,6 +25,62 @@ func two() int{
 		6151	5857	4865	437	6210	237	37	410	544	214	233	6532	2114	207	5643	6852
 	`
 
+type Spreadsheet struct {
+	lines []SpreadsheetLine
+}
+
+type SpreadsheetLine []int
+
+func (s Spreadsheet) checksum() int {
+	sum := 0
+	for _, line := range s.lines {
+		min, max := MinMax(line)
+		sum += max - min
+	}
+	return sum
+}
+
+func (s Spreadsheet) divisorsum() int {
+	sum := 0
+	for _, line := range s.lines {
+		sum += DivisorSum(line)
+	}
+	return sum
+}
+
+func NewSpreadsheet(input string) Spreadsheet {
+	lines := strings.Split(input, "\n")
+
+	sLines := []SpreadsheetLine{}
+
+	for _, line := range lines {
+		line = strings.TrimSpace(line)
+		elements := strings.Split(line, "\t")
+		iElements := []int{}
+		for _, element := range elements {
+			if element == "" {
+				continue
+			}
+			i, err := strconv.Atoi(element)
+			if err != nil {
+				log.Fatalln(err)
+			}
+			iElements = append(iElements, i)
+		}
+		sLines = append(sLines, iElements)
+	}
+
+	return Spreadsheet{
+		lines: sLines,
+	}
+}
+
+func two() int {
 	s := NewSpreadsheet(input)
 	return s.checksum()
+}
+
+func twoPartTwo() int {
+	s := NewSpreadsheet(input)
+	return s.divisorsum()
 }
