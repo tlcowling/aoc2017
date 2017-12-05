@@ -8,22 +8,14 @@ import (
 )
 
 func five() int {
-	instructions := []int{}
-	file, err := os.Open("inputs/5")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		fileline := scanner.Text()
-		num, _ := strconv.Atoi(fileline)
-		instructions = append(instructions, num)
-	}
-	return iterate(instructions)
+	return iterate(readInputFive())
 }
 
 func fivePartTwo() int {
+	return iteratePart2(readInputFive())
+}
+
+func readInputFive() []int {
 	instructions := []int{}
 	file, err := os.Open("inputs/5")
 	if err != nil {
@@ -36,7 +28,7 @@ func fivePartTwo() int {
 		num, _ := strconv.Atoi(fileline)
 		instructions = append(instructions, num)
 	}
-	return iteratePart2(instructions)
+	return instructions
 }
 
 func iterate(instructions []int) int {
