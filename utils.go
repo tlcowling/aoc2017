@@ -32,3 +32,7 @@ func MinMax(line SpreadsheetLine) (int, int) {
 	}
 	return min, max
 }
+
+func AsciiNumForChar(input uint8) uint8 {
+	return input - '0'
+}
