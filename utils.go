@@ -1,5 +1,7 @@
 package main
 
+import "errors"
+
 func DivisorSum(line SpreadsheetLine) int {
 	sum := 0
 	for i := 0; i < len(line); i++ {
@@ -35,4 +37,37 @@ func MinMax(line SpreadsheetLine) (int, int) {
 
 func AsciiNumForChar(input uint8) uint8 {
 	return input - '0'
+}
+
+func arraysCanBeCompared(a, b []int) bool {
+	if len(a) == 0 && len(b) == 0 {
+		return true
+	}
+	if len(a) != len(b) {
+		return false
+	}
+	return true
+}
+
+func EqualArrays(a, b []int) bool {
+	if arraysCanBeCompared(a, b) {
+		for i := 0; i < len(a); i++ {
+			if a[i] != b[i] {
+				return false
+			}
+		}
+		return true
+	}
+	return false
+}
+
+func AddArrays(a, b []int) ([]int, error) {
+	if arraysCanBeCompared(a, b) {
+		c := make([]int, len(a))
+		for i, el := range a {
+			c[i] = el + b[i]
+		}
+		return c, nil
+	}
+	return []int{}, errors.New("Can't add dimensionally insconsistent arrays")
 }
